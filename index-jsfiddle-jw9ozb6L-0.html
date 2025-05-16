@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Play a 3D plane game and shoot enemy aircraft</title>
+
+  <style>
+    body {
+
+  font-family: sans-serif;
+
+  text-align: center;
+
+  background: #000;
+
+  color: #fff;
+
+}
+
+#game-area {
+
+  perspective: 800px;
+
+  margin: 20px auto;
+
+  width: 320px;
+
+  height: 320px;
+
+  position: relative;
+
+  background-color: #111;
+
+  border: 2px solid #555;
+
+  border-radius: 10px;
+
+}
+
+.enemy, .player {
+
+  width: 60px;
+
+  height: 60px;
+
+  position: absolute;
+
+  transform: translateZ(30px);
+
+  transition: all 0.5s ease;
+
+}
+
+.enemy {
+
+  top: 20px;
+
+}
+
+.player {
+
+  bottom: 20px;
+
+}
+
+#status, #score {
+
+  margin: 10px;
+
+  font-size: 18px;
+
+}
+
+button {
+
+  margin: 5px;
+
+  padding: 10px 20px;
+
+  font-size: 16px;
+
+}
+  </style>
+
+  
+</head>
+<body>
+  <h2>King - Game Tembak-Tembak 3D</h2>
+
+<p>Kamu kawal pesawat di tengah, musuh datang dari atas.</p>
+
+<div id="game-area">
+
+  <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Fighter-jet-icon.png" id="enemy" class="enemy" style="display:none;">
+
+  <img src="https://upload.wikimedia.org/wikipedia/commons/1/17/Jet-fighter-icon.png" id="player" class="player">
+
+</div>
+
+<div id="status">Musuh akan muncul...</div>
+
+<p>Skor: <span id="score">0</span></p>
+
+<button onclick="tembak('kiri')">Tembak Kiri</button>
+
+<button onclick="tembak('tengah')">Tembak Tengah</button>
+
+<button onclick="tembak('kanan')">Tembak Kanan</button>
+
+<button onclick="keluar()">Keluar</button>
+
+  <script>
+    let musuhPos = "";
+
+let score = 0;
+
+const enemy = document.getElementById("enemy");
+
+const player = document.getElementById("player");
+
+function setPosition(element, pos) {
+
+  if (pos === "kiri") {
+
+    element.style.left = "20px";
+
+  } else if (pos === "tengah") {
+
+    element.style.left = "130px";
+
+  } else {
+
+    element.style.left = "240px";
+
+  }
+
+}
+
+function munculMusuh() {
+
+  const posisi = ["kiri", "tengah", "kanan"];
+
+  musuhPos = posisi[Math.floor(Math.random() * posisi.length)];
+
+  setPosition(enemy, musuhPos);
+
+  enemy.style.display = "block";
+
+  document.getElementById("status").innerText = "Musuh muncul di " + musuhPos + "!";
+
+}
+
+function tembak(pos) {
+
+  if (pos === musuhPos) {
+
+    score++;
+
+    alert("Tembak tepat! Musuh musnah!");
+
+  } else {
+
+    alert("Tembak salah, musuh lari!");
+
+  }
+
+  document.getElementById("score").innerText = score;
+
+  munculMusuh();
+
+}
+
+function keluar() {
+
+  alert("Game tamat. Skor akhir: " + score);
+
+  document.getElementById("status").innerText = "Terima kasih bermain King!";
+
+  const btns = document.querySelectorAll("button");
+
+  btns.forEach(btn => btn.disabled = true);
+
+  enemy.style.display = "none";
+
+}
+
+setPosition(player, "tengah");
+
+munculMusuh();
+  </script>
+</body>
+</html>
